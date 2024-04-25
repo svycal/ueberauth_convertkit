@@ -4,13 +4,12 @@ defmodule Ueberauth.Strategy.ConvertKit do
   """
 
   use Ueberauth.Strategy,
-    default_scope: "https://www.fastmail.com/dev/protocol-caldav",
+    default_scope: "",
     oauth2_module: Ueberauth.Strategy.ConvertKit.OAuth
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials
   alias Ueberauth.Auth.Extra
-  alias Ueberauth.Strategy.ConvertKit.CalDAV
 
   @doc """
   Handles the initial redirect to the ConvertKit authentication page.
@@ -87,23 +86,7 @@ defmodule Ueberauth.Strategy.ConvertKit do
   end
 
   def fetch_user(conn) do
-    case CalDAV.get_user(conn.private.convertkit_token) do
-      {:ok, user} ->
-        email =
-          case user[:email] do
-            "mailto:" <> e -> e
-            e -> e
-          end
-
-        display_name = user[:display_name]
-
-        conn
-        |> put_private(:convertkit_email, email)
-        |> put_private(:convertkit_name, display_name)
-
-      {:error, _} ->
-        conn
-    end
+    # TODO: Implement fetching user info
   end
 
   @doc """
