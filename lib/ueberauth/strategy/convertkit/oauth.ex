@@ -17,7 +17,7 @@ defmodule Ueberauth.Strategy.ConvertKit.OAuth do
     strategy: __MODULE__,
     site: "https://app.convertkit.com",
     authorize_url: "https://app.convertkit.com/oauth/authorize",
-    token_url: "https://app.convertkit.com/oauth/refresh"
+    token_url: "https://app.convertkit.com/oauth/token"
   ]
 
   # Public API
