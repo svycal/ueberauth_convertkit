@@ -74,6 +74,7 @@ defmodule Ueberauth.Strategy.ConvertKit.OAuth do
   @impl OAuth2.Strategy
   def get_token(client, params, headers) do
     client
+    |> put_param(:client_secret, client.client_secret)
     |> OAuth2.Strategy.ClientCredentials.get_token(params, headers)
   end
 
