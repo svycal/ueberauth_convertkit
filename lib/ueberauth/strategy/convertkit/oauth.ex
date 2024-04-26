@@ -68,14 +68,13 @@ defmodule Ueberauth.Strategy.ConvertKit.OAuth do
 
   @impl OAuth2.Strategy
   def authorize_url(client, params) do
-    OAuth2.Strategy.AuthCode.authorize_url(client, params)
+    OAuth2.Strategy.ClientCredentials.authorize_url(client, params)
   end
 
   @impl OAuth2.Strategy
   def get_token(client, params, headers) do
     client
-    |> OAuth2.Strategy.AuthCode.get_token(params, headers)
-    |> put_header("authorization", "Basic " <> Base.encode64(client.client_secret <> ":"))
+    |> OAuth2.Strategy.ClientCredentials.get_token(params, headers)
   end
 
   defp resolve_values(list) do
