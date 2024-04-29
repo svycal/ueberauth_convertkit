@@ -84,16 +84,6 @@ defmodule Ueberauth.Strategy.ConvertKit do
   end
 
   @doc """
-  Fetches the fields to populate the info section of the `Ueberauth.Auth` struct.
-  """
-  def info(conn) do
-    %Info{
-      email: conn.private.convertkit_email,
-      name: conn.private.convertkit_name
-    }
-  end
-
-  @doc """
   Stores the raw information (including the token) obtained from the ConvertKit callback.
   """
   def extra(conn) do
