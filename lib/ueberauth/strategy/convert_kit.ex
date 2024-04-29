@@ -48,7 +48,6 @@ defmodule Ueberauth.Strategy.ConvertKit do
       {:ok, %{token: %OAuth2.AccessToken{access_token: "" <> _string} = token}} ->
         conn
         |> put_private(:convertkit_token, token)
-        |> fetch_user()
 
       err ->
         handle_failure(conn, err)
@@ -63,7 +62,6 @@ defmodule Ueberauth.Strategy.ConvertKit do
   @doc false
   def handle_cleanup!(conn) do
     conn
-    |> put_private(:convertkit_user, nil)
     |> put_private(:convertkit_token, nil)
   end
 
@@ -83,10 +81,6 @@ defmodule Ueberauth.Strategy.ConvertKit do
       refresh_token: token.refresh_token,
       token: token.access_token
     }
-  end
-
-  def fetch_user(conn) do
-    # TODO: Implement fetching user info
   end
 
   @doc """
