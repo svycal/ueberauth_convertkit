@@ -83,6 +83,40 @@ defmodule Ueberauth.Strategy.ConvertKit do
     }
   end
 
+  # @doc """
+  # Fetches the fields to populate the info section of the `Ueberauth.Auth` struct.
+  # """
+  def info(conn) do
+    # Fetch the data from https://api.convertkit.com/v4/account using the access token.
+    # This gives extra data about the user.
+    access_token = conn.private.convertkit_token.access_token
+    url = "https://api.convertkit.com/v4/account"
+
+    # Set up the Tesla client
+    client =
+      Tesla.client([
+        {Tesla.Middleware.Headers, [{"Authorization", "Bearer #{access_token}"}]}
+      ])
+
+    # Make the request
+    response = client |> Tesla.get(url)
+
+    # Parse the response
+    case response do
+      {:ok, %{status: 200, body: body}} ->
+        {:ok, body} = Jason.decode(body)
+
+        %Ueberauth.Auth.Info{
+          name: body |> Map.get("name"),
+          email: body |> Map.get("primary_email_address")
+        }
+
+      _ ->
+        Logger.warn("Failed to fetch user info from ConvertKit API: #{inspect(response)}")
+        %Ueberauth.Auth.Info{}
+    end
+  end
+
   # Request failure handling
 
   defp handle_failure(conn, {:error, %OAuth2.Error{reason: reason}}) do
