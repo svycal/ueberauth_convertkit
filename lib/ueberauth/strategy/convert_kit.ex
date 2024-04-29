@@ -83,17 +83,6 @@ defmodule Ueberauth.Strategy.ConvertKit do
     }
   end
 
-  @doc """
-  Stores the raw information (including the token) obtained from the ConvertKit callback.
-  """
-  def extra(conn) do
-    %Extra{
-      raw_info: %{
-        token: conn.private.convertkit_token
-      }
-    }
-  end
-
   # Request failure handling
 
   defp handle_failure(conn, {:error, %OAuth2.Error{reason: reason}}) do

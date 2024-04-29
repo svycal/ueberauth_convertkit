@@ -33,9 +33,11 @@ defmodule Ueberauth.Strategy.ConvertKit.OAuth do
   def client(opts \\ []) do
     config = Application.get_env(:ueberauth, __MODULE__, [])
     opts = @defaults |> Keyword.merge(opts) |> Keyword.merge(config) |> resolve_values()
+    json_library = Ueberauth.json_library()
 
     opts
     |> OAuth2.Client.new()
+    |> OAuth2.Client.put_serializer("application/json", json_library)
   end
 
   @doc """
