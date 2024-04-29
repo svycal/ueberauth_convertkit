@@ -107,8 +107,8 @@ defmodule Ueberauth.Strategy.ConvertKit do
         {:ok, body} = Jason.decode(body)
 
         %Ueberauth.Auth.Info{
-          name: body |> Map.get("name"),
-          email: body |> Map.get("primary_email_address")
+          name: body |> get_in(["account", "name"]),
+          email: body |> get_in(["account", "primary_email_address"])
         }
 
       _ ->
