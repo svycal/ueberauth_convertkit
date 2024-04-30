@@ -9,7 +9,6 @@ defmodule Ueberauth.Strategy.ConvertKit do
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials
-  alias Ueberauth.Auth.Extra
 
   @doc """
   Handles the initial redirect to the ConvertKit authentication page.
@@ -106,14 +105,14 @@ defmodule Ueberauth.Strategy.ConvertKit do
       {:ok, %{status: 200, body: body}} ->
         {:ok, body} = Jason.decode(body)
 
-        %Ueberauth.Auth.Info{
+        %Info{
           name: body |> get_in(["account", "name"]),
           email: body |> get_in(["account", "primary_email_address"])
         }
 
       _ ->
-        Logger.warn("Failed to fetch user info from ConvertKit API: #{inspect(response)}")
-        %Ueberauth.Auth.Info{}
+        Logger.warning("Failed to fetch user info from ConvertKit API: #{inspect(response)}")
+        %Info{}
     end
   end
 
