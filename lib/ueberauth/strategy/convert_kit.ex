@@ -10,6 +10,8 @@ defmodule Ueberauth.Strategy.ConvertKit do
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials
 
+  require Logger
+
   @doc """
   Handles the initial redirect to the ConvertKit authentication page.
   """
